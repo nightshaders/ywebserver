@@ -1,0 +1,49 @@
+package main
+
+import (
+	cmd "github.com/codegangsta/cli"
+	"ywebserver/config"
+	"ywebserver/server"
+)
+
+func launchWebServer(c *cmd.Context) {
+	conf := &config.WebConf{
+		Port:        c.Int("port"),
+		SiteRoot:    c.String("root"),
+		DefaultFile: c.String("default-html"),
+	}
+	server.NewServer(conf).Serve()
+}
+
+func NewCli() *cmd.App {
+	app := cmd.NewApp()
+	app.Name = "sites"
+	app.Version = "0.0.1"
+	app.Usage = "Sites is an executable for both server and client."
+	app.Commands = []cmd.Command{
+		{
+			Name:    "web",
+			Aliases: []string{"s"},
+			Usage:   "Start the web server.",
+			Action:  launchWebServer,
+			Flags: []cmd.Flag{
+				cmd.IntFlag{
+					Name:  "port",
+					Value: 1111,
+					Usage: "Port for web-server to bind.",
+				},
+				cmd.StringFlag{
+					Name:  "root",
+					Value: "src/web_pair/.www/dest/_site",
+					Usage: "Path to static site assets.",
+				},
+				cmd.StringFlag{
+					Name:  "default-html",
+					Value: "index.html",
+					Usage: "File to serve for empty root '/' path.",
+				},
+			},
+		},
+	}
+	return app
+}
