@@ -1,12 +1,12 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"github.com/nightshaders/ywebserver/handlers"
+	"github.com/nightshaders/ywebserver/server"
 	"log"
 	"net/http"
-	"ywebserver/handlers"
-	"ywebserver/server"
+	"os"
 )
 
 func main() {
@@ -25,10 +25,10 @@ func Serve(r *server.Server) {
 	// Handling static assets
 	if r.Conf.ServeEmbedddedAssets {
 		r.MatcherFunc(server.EmbeddedCheck(r.Conf)).
-		  HandlerFunc(server.ServeEmbedded(r.Conf))
+			HandlerFunc(server.ServeEmbedded(r.Conf))
 	} else {
 		r.MatcherFunc(server.MatchAssets).
-		  HandlerFunc(server.ServeFile(r.Conf))
+			HandlerFunc(server.ServeFile(r.Conf))
 	}
 
 	err := http.ListenAndServe(r.Conf.Host(), r)

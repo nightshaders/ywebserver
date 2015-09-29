@@ -2,16 +2,16 @@ package main
 
 import (
 	cmd "github.com/codegangsta/cli"
-	"ywebserver/config"
-	"ywebserver/server"
+	"github.com/nightshaders/ywebserver/config"
+	"github.com/nightshaders/ywebserver/server"
 )
 
 func triggerServer(start StartServer) func(*cmd.Context) {
 	return func(c *cmd.Context) {
 		conf := &config.WebConf{
-			Port:        c.Int("port"),
-			SiteRoot:    c.String("root"),
-			DefaultFile: c.String("default-html"),
+			Port:                 c.Int("port"),
+			SiteRoot:             c.String("root"),
+			DefaultFile:          c.String("default-html"),
 			ServeEmbedddedAssets: c.Bool("serve-embedded-assets"),
 		}
 		newServer := server.NewServer(conf)

@@ -2,8 +2,8 @@ package server
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/nightshaders/ywebserver/config"
 	"net/http"
-	"ywebserver/config"
 )
 
 type Server struct {

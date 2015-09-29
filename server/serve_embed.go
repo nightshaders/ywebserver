@@ -3,12 +3,12 @@ package server
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/nightshaders/ywebserver/config"
+	"github.com/nightshaders/ywebserver/embedded"
 	"log"
 	"net/http"
 	"path/filepath"
 	"strings"
-	"ywebserver/config"
-	"ywebserver/embedded"
 )
 
 func MimeType(ext string) (string, error) {

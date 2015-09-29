@@ -2,11 +2,11 @@ package server
 
 import (
 	"fmt"
+	"github.com/nightshaders/ywebserver/config"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
-	"ywebserver/config"
 )
 
 func FileExists(filename string) bool {
