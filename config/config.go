@@ -12,7 +12,10 @@ type WebConf struct {
 	DefaultFile          string
 	AssetPath            string
 	ServeEmbedddedAssets bool
+	EmbededAsset         EmbeddedAsset		`json:"-"`
 }
+
+type EmbeddedAsset func(name string) ([]byte, error)
 
 func (w *WebConf) String() string {
 	res, err := json.MarshalIndent(w, "", "   ")

@@ -1,9 +1,8 @@
-package main
+package server
 
 import (
 	cmd "github.com/codegangsta/cli"
 	"github.com/nightshaders/ywebserver/config"
-	"github.com/nightshaders/ywebserver/server"
 )
 
 func triggerServer(start StartServer) func(*cmd.Context) {
@@ -14,13 +13,13 @@ func triggerServer(start StartServer) func(*cmd.Context) {
 			DefaultFile:          c.String("default-html"),
 			ServeEmbedddedAssets: c.Bool("serve-embedded-assets"),
 		}
-		newServer := server.NewServer(conf)
+		newServer := NewServer(conf)
 		newServer.Conf.ApplyDefaults()
 		start(newServer)
 	}
 }
 
-type StartServer func(*server.Server)
+type StartServer func(*Server)
 
 func NewCli(s StartServer) *cmd.App {
 	app := cmd.NewApp()

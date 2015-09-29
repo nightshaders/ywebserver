@@ -1,21 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"github.com/nightshaders/ywebserver/handlers"
 	"github.com/nightshaders/ywebserver/server"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 )
 
 func main() {
-	NewCli(Serve).Run(os.Args)
+	server.NewCli(Serve).Run(os.Args)
 }
 
 func Serve(r *server.Server) {
 	fmt.Println(r.Conf.String())
 	fmt.Println("Starting Web Server")
+	r.Conf.EmbededAsset = Asset
 
 	r.HandleFunc("/user", handlers.CreateUser).Methods("POST")
 	r.HandleFunc("/users", handlers.GetUsers).Methods("GET")

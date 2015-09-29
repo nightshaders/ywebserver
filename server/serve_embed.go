@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/nightshaders/ywebserver/config"
-	"github.com/nightshaders/ywebserver/embedded"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -38,11 +37,11 @@ func EmbeddedAssetPath(wc *config.WebConf, assetPath string) string {
 	return assetPath
 }
 
-func EmbeddedCheck(wc *config.WebConf) func(r *http.Request, rm *mux.RouteMatch) bool {
+func EmbeddedCheck(wc *config.WebConf, ) func(r *http.Request, rm *mux.RouteMatch) bool {
 	return func(r *http.Request, rm *mux.RouteMatch) bool {
 		asset := EmbeddedAssetPath(wc, r.URL.Path)
 		fmt.Printf("Finding resrouce: %s\n", asset)
-		fileBytes, err := embedded.Asset(asset)
+		fileBytes, err := wc.EmbededAsset(asset)
 		exists := err == nil && fileBytes != nil && len(fileBytes) > 0
 		return exists
 	}
@@ -51,7 +50,7 @@ func EmbeddedCheck(wc *config.WebConf) func(r *http.Request, rm *mux.RouteMatch)
 func ServeEmbedded(wc *config.WebConf) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		asset := EmbeddedAssetPath(wc, r.URL.Path)
-		filebytes, err := embedded.Asset(asset)
+		filebytes, err := wc.EmbededAsset(asset)
 		if err != nil {
 			log.Printf("Didn't find embedded asset: %s\n", asset)
 			http.NotFound(w, r)

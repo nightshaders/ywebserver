@@ -36,3 +36,6 @@ bin/
 src/tmp-*
 src/github.com/
 src/golang.org/
+
+# This file is generated and shouldn't be checked in in this package.
+embedded.go
