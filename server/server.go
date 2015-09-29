@@ -8,13 +8,13 @@ import (
 
 type Server struct {
 	*mux.Router
-	conf *config.WebConf
+	Conf *config.WebConf
 }
 
 func NewServer(conf *config.WebConf) *Server {
 	return &Server{
 		Router: mux.NewRouter(),
-		conf:   conf,
+		Conf:   conf,
 	}
 }
 

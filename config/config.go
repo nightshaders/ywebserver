@@ -1,7 +1,9 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 )
 
 type WebConf struct {
@@ -13,12 +15,11 @@ type WebConf struct {
 }
 
 func (w *WebConf) String() string {
-	s := `
-Using port %d
-Serving static assets from: %s
-Default html file: %s
-`
-	return fmt.Sprintf(s, w.Port, w.SiteRoot, w.DefaultFile)
+	res, err := json.MarshalIndent(w, "", "   ")
+	if err != nil {
+		log.Println(err)
+	}
+	return string(res)
 }
 
 func defInt(a, b int) int {
@@ -44,9 +45,10 @@ func (w *WebConf) Host() string {
 func (w *WebConf) ApplyDefaults() *WebConf {
 	def := defaultWebConf
 	rs := &WebConf{
-		Port:        defInt(w.Port, def.Port),
-		SiteRoot:    defString(w.SiteRoot, def.SiteRoot),
-		DefaultFile: defString(w.DefaultFile, def.DefaultFile),
+		Port:                 defInt(w.Port, def.Port),
+		SiteRoot:             defString(w.SiteRoot, def.SiteRoot),
+		DefaultFile:          defString(w.DefaultFile, def.DefaultFile),
+		ServeEmbedddedAssets: w.ServeEmbedddedAssets,
 	}
 	return rs
 }

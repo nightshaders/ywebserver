@@ -6,16 +6,23 @@ import (
 	"ywebserver/server"
 )
 
-func launchWebServer(c *cmd.Context) {
-	conf := &config.WebConf{
-		Port:        c.Int("port"),
-		SiteRoot:    c.String("root"),
-		DefaultFile: c.String("default-html"),
+func triggerServer(start StartServer) func(*cmd.Context) {
+	return func(c *cmd.Context) {
+		conf := &config.WebConf{
+			Port:        c.Int("port"),
+			SiteRoot:    c.String("root"),
+			DefaultFile: c.String("default-html"),
+			ServeEmbedddedAssets: c.Bool("serve-embedded-assets"),
+		}
+		newServer := server.NewServer(conf)
+		newServer.Conf.ApplyDefaults()
+		start(newServer)
 	}
-	server.NewServer(conf).Serve()
 }
 
-func NewCli() *cmd.App {
+type StartServer func(*server.Server)
+
+func NewCli(s StartServer) *cmd.App {
 	app := cmd.NewApp()
 	app.Name = "sites"
 	app.Version = "0.0.1"
@@ -25,8 +32,12 @@ func NewCli() *cmd.App {
 			Name:    "web",
 			Aliases: []string{"s"},
 			Usage:   "Start the web server.",
-			Action:  launchWebServer,
+			Action:  triggerServer(s),
 			Flags: []cmd.Flag{
+				cmd.BoolFlag{
+					Name:  "serve-embedded-assets",
+					Usage: "Serves embedded assets. (ignores root flag)",
+				},
 				cmd.IntFlag{
 					Name:  "port",
 					Value: 1111,

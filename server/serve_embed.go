@@ -42,8 +42,8 @@ func EmbeddedCheck(wc *config.WebConf) func(r *http.Request, rm *mux.RouteMatch)
 	return func(r *http.Request, rm *mux.RouteMatch) bool {
 		asset := EmbeddedAssetPath(wc, r.URL.Path)
 		fmt.Printf("Finding resrouce: %s\n", asset)
-		filebytes, err := embedded.Asset(asset)
-		exists := err == nil && filebytes != nil && len(filebytes) > 0
+		fileBytes, err := embedded.Asset(asset)
+		exists := err == nil && fileBytes != nil && len(fileBytes) > 0
 		return exists
 	}
 }
@@ -66,6 +66,7 @@ func ServeEmbedded(wc *config.WebConf) func(http.ResponseWriter, *http.Request) 
 			return
 		}
 
+		w.Header().Set("Cache-Control", "public, max-age=315360000")
 		w.Header().Set("Content-Type", mime)
 		w.Write(filebytes)
 	}
