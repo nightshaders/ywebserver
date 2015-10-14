@@ -13,6 +13,6 @@ fmt: .FORCE
 	gofmt -w */
 
 install: .FORCE
-	go install github.com/nightshaders/ywebserver
+	go install
 
 .FORCE:
