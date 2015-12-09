@@ -10,13 +10,15 @@ import (
 )
 
 func main() {
-	server.NewCli(Serve).Run(os.Args)
+	server.NewCli(ExampleServe).Run(os.Args)
 }
 
-func Serve(r *server.Server) {
+// ExampleServe is an example function.  A similar function should
+// be used to write a specific server.
+func ExampleServe(r *server.Server) {
 	fmt.Println(r.Conf.String())
 	fmt.Println("Starting Web Server")
-	r.Conf.EmbededAsset = server.HybridAssets(Asset)
+	r.Conf.EmbeddedAsset = server.HybridAssets(Asset)
 
 	r.HandleFunc("/user", handlers.CreateUser).Methods("POST")
 	r.HandleFunc("/users", handlers.GetUsers).Methods("GET")
