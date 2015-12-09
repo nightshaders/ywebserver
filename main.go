@@ -18,7 +18,7 @@ func main() {
 func ExampleServe(r *server.Server) {
 	fmt.Println(r.Conf.String())
 	fmt.Println("Starting Web Server")
-	r.Conf.EmbeddedAsset = server.HybridAssets(Asset)
+	r.Conf.EmbeddedAsset = server.HybridAssets(Asset, r.Conf)
 
 	r.HandleFunc("/user", handlers.CreateUser).Methods("POST")
 	r.HandleFunc("/users", handlers.GetUsers).Methods("GET")

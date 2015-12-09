@@ -11,7 +11,7 @@ import (
 )
 
 
-func ProcessMarkdownTemplate(mdHtml []byte, conf config.WebConf) ([]byte, error) {
+func ProcessMarkdownTemplate(mdHtml []byte, conf *config.WebConf) ([]byte, error) {
 	tpl, err := ioutil.ReadFile(conf.MarkdownTemplate)
 	return tpl, err
 }
@@ -31,7 +31,7 @@ func CompileMarkdown(path string) ([]byte, error) {
 	return blackfriday.MarkdownBasic(bb), nil
 }
 
-func HybridAssets(assets config.EmbeddedAsset, conf config.WebConf) config.EmbeddedAsset {
+func HybridAssets(assets config.EmbeddedAsset, conf *config.WebConf) config.EmbeddedAsset {
 	return func(path string) ([]byte, error) {
 		ext := filepath.Ext(path)
 		if IsMarkdown(ext) {
