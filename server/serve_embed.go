@@ -41,7 +41,7 @@ func EmbeddedCheck(wc *config.WebConf, ) func(r *http.Request, rm *mux.RouteMatc
 	return func(r *http.Request, rm *mux.RouteMatch) bool {
 		asset := EmbeddedAssetPath(wc, r.URL.Path)
 		fmt.Printf("Finding resrouce: %s\n", asset)
-		fileBytes, err := wc.EmbededAsset(asset)
+		fileBytes, err := wc.EmbeddedAsset(asset)
 		exists := err == nil && fileBytes != nil && len(fileBytes) > 0
 		return exists
 	}
@@ -50,7 +50,7 @@ func EmbeddedCheck(wc *config.WebConf, ) func(r *http.Request, rm *mux.RouteMatc
 func ServeEmbedded(wc *config.WebConf) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		asset := EmbeddedAssetPath(wc, r.URL.Path)
-		filebytes, err := wc.EmbededAsset(asset)
+		filebytes, err := wc.EmbeddedAsset(asset)
 		if err != nil {
 			log.Printf("Didn't find embedded asset: %s\n", asset)
 			http.NotFound(w, r)

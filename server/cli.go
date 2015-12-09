@@ -37,6 +37,11 @@ func NewCli(s StartServer) *cmd.App {
 					Name:  "serve-embedded-assets",
 					Usage: "Serves embedded assets. (ignores root flag)",
 				},
+				cmd.StringFlag{
+					Name:  "markdown-template",
+					Value: "default.md.html",
+					Usage: "The template to wrap processed markdown.",
+				},
 				cmd.IntFlag{
 					Name:  "port",
 					Value: 1111,
