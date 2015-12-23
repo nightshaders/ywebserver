@@ -2,14 +2,14 @@ package server
 
 import (
 	"fmt"
-	"path/filepath"
 	"io/ioutil"
 	"log"
-	"github.com/russross/blackfriday"
-	"github.com/nightshaders/ywebserver/config"
 	"os"
-)
+	"path/filepath"
 
+	"github.com/nightshaders/ywebserver/config"
+	"github.com/russross/blackfriday"
+)
 
 func ProcessMarkdownTemplate(mdHtml []byte, conf *config.WebConf) ([]byte, error) {
 	tpl, err := ioutil.ReadFile(conf.MarkdownTemplate)
@@ -50,7 +50,3 @@ func HybridAssets(assets config.EmbeddedAsset, conf *config.WebConf) config.Embe
 func IsMarkdown(ext string) bool {
 	return ext == ".md"
 }
-
-
-
-

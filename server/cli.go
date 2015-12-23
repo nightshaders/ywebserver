@@ -5,13 +5,14 @@ import (
 	"github.com/nightshaders/ywebserver/config"
 )
 
-func triggerServer(start StartServer) func(*cmd.Context) {
+func triggerServer(start StartServer, assets config.EmbeddedAsset) func(*cmd.Context) {
 	return func(c *cmd.Context) {
 		conf := &config.WebConf{
 			Port:                 c.Int("port"),
 			SiteRoot:             c.String("root"),
 			DefaultFile:          c.String("default-html"),
 			ServeEmbedddedAssets: c.Bool("serve-embedded-assets"),
+			EmbeddedAsset:        assets,
 		}
 		newServer := NewServer(conf)
 		newServer.Conf.ApplyDefaults()
@@ -21,7 +22,7 @@ func triggerServer(start StartServer) func(*cmd.Context) {
 
 type StartServer func(*Server)
 
-func NewCli(s StartServer) *cmd.App {
+func NewCli(s StartServer, assets config.EmbeddedAsset) *cmd.App {
 	app := cmd.NewApp()
 	app.Name = "sites"
 	app.Version = "0.0.1"
@@ -31,7 +32,7 @@ func NewCli(s StartServer) *cmd.App {
 			Name:    "web",
 			Aliases: []string{"s"},
 			Usage:   "Start the web server.",
-			Action:  triggerServer(s),
+			Action:  triggerServer(s, assets),
 			Flags: []cmd.Flag{
 				cmd.BoolFlag{
 					Name:  "serve-embedded-assets",

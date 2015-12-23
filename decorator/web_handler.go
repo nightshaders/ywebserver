@@ -1,6 +1,5 @@
 package decorator
 
-
 type Handler interface {
 	Handle(p Params) error
 }
@@ -10,9 +9,6 @@ type WebHandler func(Params) error
 func (w WebHandler) Handle(p Params) error {
 	return w(p)
 }
-
-
-
 
 type ParamsDecorator func(Params) Params
 

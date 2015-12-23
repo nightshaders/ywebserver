@@ -1,13 +1,13 @@
 package decorator
 
 import (
-	"net/http"
-	"github.com/nightshaders/ywebserver/status"
-	"os"
 	"fmt"
+	"net/http"
+	"os"
 	"runtime/debug"
-)
 
+	"github.com/nightshaders/ywebserver/status"
+)
 
 type Decorator func(h WebHandler) WebHandler
 
@@ -61,5 +61,3 @@ func ProvideErrorHandling(w WebHandler) WebHandler {
 		return w.Handle(p)
 	}
 }
-
-

@@ -1,9 +1,11 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/nightshaders/ywebserver/config"
-	"net/http"
+	"github.com/nightshaders/ywebserver/decorator"
 )
 
 type Server struct {
@@ -21,4 +23,8 @@ func NewServer(conf *config.WebConf) *Server {
 func (s *Server) HandleHttp(path string, h http.Handler) *Server {
 	s.HandleFunc(path, h.ServeHTTP)
 	return s
+}
+
+func (r *Server) Route(route string, pipe decorator.Decorator, h decorator.Handler) {
+	r.HandleFunc(route, pipe.Handle(h))
 }

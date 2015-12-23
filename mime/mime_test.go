@@ -1,10 +1,11 @@
 package mime
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"os"
 	"path/filepath"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func relToTestingPwd(f string) string {

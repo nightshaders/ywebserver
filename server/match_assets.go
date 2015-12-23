@@ -1,9 +1,10 @@
 package server
 
 import (
-	"github.com/gorilla/mux"
 	"net/http"
 	"path"
+
+	"github.com/gorilla/mux"
 )
 
 func MatchAssets(req *http.Request, rm *mux.RouteMatch) bool {

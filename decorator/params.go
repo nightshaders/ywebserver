@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-
 type Params interface {
 	Response() http.ResponseWriter
 	Request() *http.Request
@@ -23,16 +22,16 @@ type Params interface {
 
 type BaseParams struct {
 	Params
-	response http.ResponseWriter
-	request *http.Request
-	session *sessions.Session
+	response   http.ResponseWriter
+	request    *http.Request
+	session    *sessions.Session
 	sessionKey string
 }
 
 func NewParams(res http.ResponseWriter, req *http.Request) Params {
 	return &BaseParams{
 		response: res,
-		request: req,
+		request:  req,
 	}
 }
 func (p *BaseParams) Response() http.ResponseWriter {
@@ -84,4 +83,3 @@ func (p *BaseParams) RedirectToLogin() {
 func (p *BaseParams) RedirectToLandingPage() {
 	http.Redirect(p.Response(), p.Request(), "/batman", http.StatusTemporaryRedirect)
 }
-

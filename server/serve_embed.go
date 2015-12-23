@@ -2,12 +2,13 @@ package server
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/nightshaders/ywebserver/config"
 	"log"
 	"net/http"
 	"path/filepath"
 	"strings"
+
+	"github.com/gorilla/mux"
+	"github.com/nightshaders/ywebserver/config"
 )
 
 func MimeType(ext string) (string, error) {
@@ -37,7 +38,7 @@ func EmbeddedAssetPath(wc *config.WebConf, assetPath string) string {
 	return assetPath
 }
 
-func EmbeddedCheck(wc *config.WebConf, ) func(r *http.Request, rm *mux.RouteMatch) bool {
+func EmbeddedCheck(wc *config.WebConf) func(r *http.Request, rm *mux.RouteMatch) bool {
 	return func(r *http.Request, rm *mux.RouteMatch) bool {
 		asset := EmbeddedAssetPath(wc, r.URL.Path)
 		fmt.Printf("Finding resrouce: %s\n", asset)

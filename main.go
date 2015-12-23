@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/nightshaders/ywebserver/decorator"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+
+	"github.com/nightshaders/ywebserver/decorator"
 )
 
 func main() {
-//	server.NewCli(ExampleServe).Run(os.Args)
+	//	server.NewCli(ExampleServe).Run(os.Args)
 
 	var unauth decorator.Decorator = decorator.NewPipeline().
 		Next(ProvideErrorHandling).
@@ -23,7 +24,8 @@ func main() {
 	handler(res, req)
 }
 
-type H struct {}
+type H struct{}
+
 func (h H) Handle(p decorator.Params) error {
 	fmt.Println("Handle")
 	return nil
@@ -42,7 +44,6 @@ func ProvideSession(w decorator.WebHandler) decorator.WebHandler {
 		return w.Handle(p)
 	}
 }
-
 
 func ProvideUserProfile(w decorator.WebHandler) decorator.WebHandler {
 	return func(p decorator.Params) (err error) {

@@ -6,14 +6,13 @@ import (
 	"log"
 )
 
-
 type WebConf struct {
 	Port                 int
 	SiteRoot             string
 	DefaultFile          string
 	AssetPath            string
 	ServeEmbedddedAssets bool
-	EmbeddedAsset        EmbeddedAsset      `json:"-"`
+	EmbeddedAsset        EmbeddedAsset `json:"-"`
 	MarkdownTemplate     string
 }
 
