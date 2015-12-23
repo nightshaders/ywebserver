@@ -16,7 +16,9 @@ func MatchAssets(req *http.Request, rm *mux.RouteMatch) bool {
 	}
 
 	switch e {
-	case ".js", ".css", ".html", ".ttf":
+	case ".png", ".jpg", ".jpeg", ".gif", ".ico":
+		return true
+	case ".js", ".css", ".html", ".ttf", ".json":
 		return true
 	default:
 		return false
