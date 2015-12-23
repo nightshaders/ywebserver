@@ -28,3 +28,11 @@ func (s *Server) HandleHttp(path string, h http.Handler) *Server {
 func (r *Server) Route(route string, pipe decorator.Decorator, h decorator.Handler) {
 	r.HandleFunc(route, pipe.Handle(h))
 }
+
+func (r *Server) DefaultServeStatic() *mux.Route {
+	if r.Conf.ServeEmbedddedAssets {
+		return r.MatcherFunc(EmbeddedCheck(r.Conf)).HandlerFunc(ServeEmbedded(r.Conf))
+	} else {
+		return r.MatcherFunc(MatchAssets).HandlerFunc(ServeFile(r.Conf))
+	}
+}

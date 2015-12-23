@@ -11,7 +11,6 @@ func MatchAssets(req *http.Request, rm *mux.RouteMatch) bool {
 	p := req.URL.Path
 	e := path.Ext(p)
 
-	// Typically handled by index.html, but that is set in the Conf
 	if p == "/" {
 		return true
 	}

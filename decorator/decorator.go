@@ -9,22 +9,31 @@ import (
 	"github.com/nightshaders/ywebserver/status"
 )
 
+
+// A Decorator adds functionality to the provided WebHandler and
+// then returns a new WebHandler.
 type Decorator func(h WebHandler) WebHandler
 
+// A NewPipeline begins a chain of WebHandlers that can service web requests.
 func NewPipeline() Decorator {
 	return func(h WebHandler) WebHandler {
 		return h
 	}
 }
+
+// Next chains together WebHandler Decorator(s)
 func (d Decorator) Next(next Decorator) Decorator {
 	return func(w WebHandler) WebHandler {
 		return d(next(w))
 	}
 }
+
+// Using chains together ParamsDecorators
 func (d Decorator) Using(pd ParamsDecorator) Decorator {
 	return d.Next(pd.Handle())
 }
 
+// Handle converts a pipeline decorator with a handler into a HandlerFunc
 func (d Decorator) Handle(handler Handler) http.HandlerFunc {
 	return func(res http.ResponseWriter, req *http.Request) {
 		p := NewParams(res, req)
@@ -41,6 +50,8 @@ func (d Decorator) Handle(handler Handler) http.HandlerFunc {
 	}
 }
 
+// ProvideErrorHandling is a Decorator that recovers from any errors raised
+// by the WebHandler while it's servicing a request.
 func ProvideErrorHandling(w WebHandler) WebHandler {
 	return func(p Params) (err error) {
 		defer func() {

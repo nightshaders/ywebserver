@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	cmd "github.com/codegangsta/cli"
 	"github.com/nightshaders/ywebserver/config"
 )
@@ -14,6 +15,11 @@ func triggerServer(start StartServer, assets config.EmbeddedAsset) func(*cmd.Con
 			ServeEmbedddedAssets: c.Bool("serve-embedded-assets"),
 			EmbeddedAsset:        assets,
 		}
+
+		if c.Bool("show-conf") {
+			fmt.Println(conf)
+		}
+
 		newServer := NewServer(conf)
 		newServer.Conf.ApplyDefaults()
 		start(newServer)
@@ -57,6 +63,10 @@ func NewCli(s StartServer, assets config.EmbeddedAsset) *cmd.App {
 					Name:  "default-html",
 					Value: "index.html",
 					Usage: "File to serve for empty root '/' path.",
+				},
+				cmd.BoolFlag{
+					Name: "show-conf",
+					Usage: "Logs to stdout the current/active config.",
 				},
 			},
 		},
